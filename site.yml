@@ -3,16 +3,16 @@
   become: true
   pre_tasks:
 
-  - name: install updates RedHat
+  - name: update repo cache RedHat
     dnf:
-      update_only: yes
       update_cache: yes
+    changed_when: false
     when: ansible_distribution == 'RedHat'
   
-  - name: install updates Ubuntu
+  - name: update repo cache Ubuntu
     apt: 
-      upgrade: dist
       update_cache: yes
+    changed_when: falseß
     when: ansible_distribution == 'Ubuntu'
 
 - hosts: ubuntu_servers
@@ -39,22 +39,9 @@
   become: true
   tasks:
 
-  - name: create ansible user 
-    user:
-      name: ansible
-      groups: root
-  
   - name: add ssh key for ansible user
     authorized_key:
       user: ansible
       state: present
       key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAf6d+4AOmSbUQOyIv85bJ9qFdkQaFnVsmKJYHV4OfYl ansible.testing"
-  
-  - name: add sudoers file for ansible user
-    copy:
-      src: sudoer_ansible
-      dest: /etc/sudoers.d/ansible
-      owner: root
-      group: root
-      mode: '0440'
   
