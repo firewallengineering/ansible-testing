@@ -3,20 +3,11 @@
   become: true
   tasks:
 
-  - name: Install Apache2 and php package for Ubuntu
-    apt:
+  - name: Install Apache and PHP package
+    package:
       name: 
-        - apache2
-        - libapache2-mod-php
+        - "{{ apache_package }}"
+        - "{{ php_package }}"
       state: latest
       update_cache: yes
-    when: ansible_distribution == 'Ubuntu'
-
-  - name: Install Apache2 and php package for RedHat
-    dnf:
-      name: 
-        - httpd
-        - php
-      state: latest
-      update_cache: yes
-    when: ansible_distribution == 'RedHat'
+   
